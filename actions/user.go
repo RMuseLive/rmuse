@@ -147,7 +147,12 @@ func UserPageFetch(c buffalo.Context) error {
 	m, err := models.GetMediaByUsername(tx, username)
 
 	if err != nil {
-		return c.Error(http.StatusInternalServerError, fmt.Errorf("fetch of models failed %v", err))
+		resp := struct{
+			Errors []string `json:"errors"`
+		}{
+			Errors: []string{fmt.Sprintf("user %s not found", username)},
+		}
+		return c.Render(http.StatusNotFound, r.JSON(resp))
 	}
 
 	u, ok := c.Value("user").(*models.User)
@@ -157,8 +162,8 @@ func UserPageFetch(c buffalo.Context) error {
 	}
 
 	res := struct{
-		Following bool `json:following`
-		Media     *models.Media `json:images`
+		Following bool          `json:"following"`
+		Media     *models.Media `json:"images"`
 	}{
 		Following: u.Follows(tx, username),
 		Media: m,

@@ -2,6 +2,7 @@ package models
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"time"
 
@@ -76,6 +77,10 @@ func GetMediaByUsername(tx *pop.Connection, username string) (*Media, error) {
 	u, err := GetUserByUsername(tx, username)
 	if err != nil {
 		return nil, err
+	}
+
+	if !u.Artist {
+		return nil, errors.New(fmt.Sprintf("user %s is not an artist", username))
 	}
 
 	query := tx.Where("user_id = ?", u.ID)

@@ -22,7 +22,8 @@ func (f *Follow) Create(tx *pop.Connection) (*validate.Errors, error) {
 }
 
 func (f *Follow) Delete(tx *pop.Connection) error {
-	return tx.Destroy(f)
+	query := tx.RawQuery("DELETE FROM follows WHERE follower = ? AND followed = ?", f.Follower, f.Followed)
+	return query.Exec()
 }
 
 // String is not required by pop and may be deleted

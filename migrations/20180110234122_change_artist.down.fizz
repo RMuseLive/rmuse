@@ -1,2 +1,2 @@
 drop_column("users", "artist")
-add_column("users", "role", "string", {})
+add_column("users", "role", "string", {"default": "follower"})

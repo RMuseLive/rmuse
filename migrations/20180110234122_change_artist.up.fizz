@@ -1,2 +1,2 @@
 drop_column("users", "role")
-add_column("users", "artist", "boolean", {})
+add_column("users", "artist", "bool", {"default": false})

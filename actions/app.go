@@ -64,6 +64,8 @@ func App() *buffalo.App {
 		v1.GET("/user/{username}", UserPageFetch)
 		v1.POST("/user/{username}/follow", UserFollow)
 		v1.DELETE("/user/{username}/follow", UserUnfollow)
+
+		v1.GET("/teapot", Teapot)
 	}
 
 	return app
